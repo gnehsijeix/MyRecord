@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CircleProgressView">
+        <!--圆环颜色-->
+        <attr name="annulus_color" format="color"/>
+        <!--扇形进度颜色-->
+        <attr name="progress_sector_color" format="color"/>
+        <!--圆环宽度-->
+        <attr name="annulus_width" format="dimension"/>
+        <!--圆环与进度扇形间隔-->
+        <attr name="annulus_and_sector_interval" format="dimension"/>
+    </declare-styleable>
+    
+    <declare-styleable name="NestedScrollLinearLayout">
+    </declare-styleable>
+    
+</resources>

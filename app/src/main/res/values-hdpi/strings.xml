@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">MyRecords</string>
+    <string name="story">从图中我们可以知道 layout_scrollFlags="scroll|enterAlways，
+前面已经说到layout_scrollFlags=scroll的时候，这个View会 跟着 滚动 事件响应，
+layout_scrollFlags=“enterAlways”的时候 这个View会响应下拉事件
+所以呈现出来的结果应该是我们在上拉的时候toolBar 会隐藏，下拉的时候toolBar会出来
+
+那如果当我们的toolBar 等于 app:layout_scrollFlags="scroll|snap"的时候 ，
+layout_scrollFlags=scroll的时候，这个View会 跟着 滚动 事件响应，
+layout_scrollFlags=“snap”的时候 在Scroll滑动事件结束以前 ，如果这个View部分可见，那么这个View会停在最接近当前View的位置。
+综上呈现的效果如下，代码见ToolBarSampleSnar的布局文件</string>
+    <string name="test_screen_adapt">我是hdpi</string>
+</resources>

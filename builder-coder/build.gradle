@@ -1,0 +1,13 @@
+apply plugin: 'java-library'
+
+dependencies {
+    //implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.google.auto.service:auto-service:1.0-rc3'
+    implementation files('libs/arouter-annotation-1.0.3.jar')
+}
+
+
+
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}

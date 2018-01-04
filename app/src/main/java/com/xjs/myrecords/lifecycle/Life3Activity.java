@@ -1,0 +1,14 @@
+package com.xjs.myrecords.lifecycle;
+
+import android.os.Bundle;
+
+import com.xjs.myrecords.R;
+
+public class Life3Activity extends BaseLogLifecycleActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_life1);
+    }
+}

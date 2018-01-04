@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.xjs.myrecords.HomeActivity"
+    android:background="@color/colorPrimary"
+    >
+    <com.xjs.myrecords.view.CircleProgressView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        app:annulus_color="@android:color/white"
+        app:progress_sector_color="@android:color/white"
+        app:annulus_and_sector_interval="1dp"
+        app:annulus_width="3dp"
+        android:id="@+id/main_circle_progress_view"
+        android:layout_gravity="center"
+        />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        />
+</LinearLayout>
