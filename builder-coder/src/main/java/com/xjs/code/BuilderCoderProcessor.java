@@ -151,15 +151,14 @@ public class BuilderCoderProcessor extends AbstractProcessor {
         for (Element fieldElement : elementList) {
             messager.printMessage(Diagnostic.Kind.NOTE, "BuilderCoder generateClass:" + classElement.getQualifiedName() + "field:" + fieldElement.getSimpleName().toString());
             FieldSpec fieldSpec = createFieldSpec(fieldElement);
-            printMessage("generate field%s finish",fieldElement);
+            printMessage("generate field%s finish", fieldElement);
             fieldSpecList.add(fieldSpec);
 
             MethodSpec methodSpec = createMethodSpec(classElement, fieldElement);
             methodSpecList.add(methodSpec);
-            printMessage("generate field method %s finish",fieldElement);
+            printMessage("generate field method %s finish", fieldElement);
 
         }
-
 
         //路由路径字段
         String routePath = classElement.getAnnotation(Route.class).path();
@@ -168,28 +167,28 @@ public class BuilderCoderProcessor extends AbstractProcessor {
                 , Modifier.PRIVATE)
                 .initializer("$S", routePath)
                 .build();
+        fieldSpecList.add(routePathFieldSpec);
 
         //构造函数
         MethodSpec constructor = MethodSpec.constructorBuilder()
                 .addModifiers(Modifier.PUBLIC)
                 .build();
+        methodSpecList.add(constructor);
+
         //build函数
         MethodSpec buildMethod = MethodSpec.methodBuilder("build")
                 .addModifiers(Modifier.PUBLIC)
                 .returns(ClassName.get("com.alibaba.android.arouter.facade", "Postcard"))
+                .addStatement("return $N", "null")
                 .build();
-
+        methodSpecList.add(buildMethod);
 
         //类名
-        String className = GENERATE_CLASS_NAME_PREFIX + classElement.getSimpleName();
         TypeSpec classTypeSpec = TypeSpec
-                .classBuilder(className)
+                .classBuilder(getClassName(classElement))
                 .addModifiers(Modifier.PUBLIC)
-                .addField(routePathFieldSpec)
                 .addFields(fieldSpecList)
                 .addMethods(methodSpecList)
-                .addMethod(constructor)
-                .addMethod(buildMethod)
                 .build();
 
         return JavaFile.builder(((PackageElement) classElement.getEnclosingElement()).getQualifiedName().toString(), classTypeSpec)
@@ -198,59 +197,15 @@ public class BuilderCoderProcessor extends AbstractProcessor {
 
     private FieldSpec createFieldSpec(Element element) {
         VariableElement variableElement = (VariableElement) element;
-        if (variableElement.asType().getKind().isPrimitive()) {
-            printMessage(String.format("field:%s isPrimitive TypeName:%s", element.getSimpleName().toString(),getPrimitiveTypeName(element.asType()).toString()));
-            return FieldSpec.builder(getPrimitiveTypeName(element.asType())
-                    , variableElement.getSimpleName().toString()
-                    , Modifier.PRIVATE)
-                    .initializer("$T", variableElement.getConstantValue())
-                    .build();
-        } else {
-            return FieldSpec.builder(ClassName.bestGuess(((TypeElement) element).getQualifiedName().toString())
-                    , variableElement.getSimpleName().toString()
-                    , Modifier.PRIVATE)
-                    .initializer("$T", variableElement.getConstantValue())
-                    .build();
-        }
+        printMessage(String.format("field:%s TypeName:%s", element.getSimpleName().toString(), TypeName.get(element.asType()).toString()));
+        return FieldSpec.builder(getTypeName(element)
+                , variableElement.getSimpleName().toString()
+                , Modifier.PRIVATE)
+                //.initializer("$T", variableElement.getConstantValue())
+                .build();
     }
 
-    private void printMessage(String format,Object... a) {
-        printMessage(String.format(format,a));
-    }
-    private void printMessage(String message) {
-        messager.printMessage(Diagnostic.Kind.NOTE, String.format("%s %s", MESSAGE_TAG, message));
-    }
 
-    private static TypeName getTypeName(Element element) {
-        if (element.asType().getKind().isPrimitive()) {
-            return TypeName.get(element.asType());
-        } else {
-            return ClassName.bestGuess(((TypeElement) element).getQualifiedName().toString());
-        }
-    }
-
-    private static TypeName getPrimitiveTypeName(TypeMirror mirror) {
-        switch (mirror.getKind()) {
-            case BOOLEAN:
-                return TypeName.BOOLEAN;
-            case BYTE:
-                return TypeName.BYTE;
-            case SHORT:
-                return TypeName.SHORT;
-            case INT:
-                return TypeName.INT;
-            case LONG:
-                return TypeName.LONG;
-            case CHAR:
-                return TypeName.CHAR;
-            case FLOAT:
-                return TypeName.FLOAT;
-            case DOUBLE:
-                return TypeName.DOUBLE;
-            default:
-                throw new AssertionError();
-        }
-    }
 
 
     private MethodSpec createMethodSpec(TypeElement typeElement, Element element) {
@@ -265,10 +220,26 @@ public class BuilderCoderProcessor extends AbstractProcessor {
         return MethodSpec.methodBuilder(methodSetPrefix + fieldName.substring(0, 1) + fieldName.substring(0, fieldName.length() - 1))
                 .addModifiers(Modifier.PUBLIC)
                 .addParameter(parameterSpec)
-                .returns(getTypeName(typeElement))
-                .addStatement("this.$S = $S", element.getSimpleName().toString(), parameterSpec.name)
+                .returns(ClassName.bestGuess(getClassName(typeElement)))
+                .addStatement("this.$N = $N", element.getSimpleName().toString(), parameterSpec.name)
                 .addStatement("return this")
                 .build();
+    }
+
+    private void printMessage(String format, Object... a) {
+        printMessage(String.format(format, a));
+    }
+
+    private void printMessage(String message) {
+        messager.printMessage(Diagnostic.Kind.NOTE, String.format("%s %s", MESSAGE_TAG, message));
+    }
+
+    private static TypeName getTypeName(Element element) {
+        return TypeName.get(element.asType());
+    }
+
+    private static String getClassName(TypeElement element) {
+        return GENERATE_CLASS_NAME_PREFIX + element.getSimpleName();
     }
 
 
