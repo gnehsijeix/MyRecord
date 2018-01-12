@@ -19,6 +19,8 @@ public class HomeActivity extends AppCompatActivity {
     int progress = 0;
     @Autowired(name = "timer",required = false)
     Timer timer;
+    @Autowired
+    String password;
 
     private static final String TAG = "HomeActivity";
     @Override
