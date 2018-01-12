@@ -1,1 +1,1 @@
-include ':app', ':builder-coder'
+include ':app', ':builder-compiler'
