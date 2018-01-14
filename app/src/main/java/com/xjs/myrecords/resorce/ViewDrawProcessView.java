@@ -2,6 +2,7 @@ package com.xjs.myrecords.resorce;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;

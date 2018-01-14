@@ -5,53 +5,39 @@ import android.os.Bundle;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.alibaba.android.arouter.launcher.ARouter;
+import com.xjs.myrecords.test.TestBean;
 import com.xjs.myrecords.view.CircleProgressView;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
 
-@Route(path="com.xjs.code.home")
+@Route(path = "/com/xjs/code/home")
 public class HomeActivity extends AppCompatActivity {
     private CircleProgressView mCircleProgressView;
-    @Autowired(name = "progress",required = true)
-    int progress = 0;
-    @Autowired(name = "timer",required = false)
-    Timer timer;
+
+
+    @Autowired(name = "_progress", required = true, desc = "lira")
+    int mProgress = 0;
+    @Autowired(required = true)
+    String mPassword = new String("aaa");
+    @Autowired(name = "isFirst")
+    boolean first;
     @Autowired
-    String password;
+    char aChar;
+    @Autowired
+    Float aFloat;
+    @Autowired
+    double aDouble;
+    @Autowired
+    TestBean testBean;
 
     private static final String TAG = "HomeActivity";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         mCircleProgressView = (CircleProgressView) findViewById(R.id.main_circle_progress_view);
-        testProgress();
-    }
-    private void testProgress() {
-        timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                HomeActivity.this.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        progress++;
-                        mCircleProgressView.updateProgress(progress);
-                        if (progress>=100) {
-                            timer.cancel();
-                        }
-                    }
-                });
-            }
-        },0,100);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        timer.cancel();
     }
 }

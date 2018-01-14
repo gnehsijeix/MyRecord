@@ -1,6 +1,5 @@
-package com.xjs.code;
+package com.xjs.myrecords.annotation;
 
-import javax.lang.model.element.Element;
 
 /**
  * @author xjs

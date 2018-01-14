@@ -61,7 +61,7 @@ import javax.lang.model.util.SimpleTypeVisitor7;
  * <h3>Defining new types</h3>
  *
  * <p>Create new reference types like {@code com.example.HelloWorld} with {@link
- * ClassName#get(String, String, String...)}. To build composite types like {@code char[]} and
+ * ClassName#get(String, String, String...)}. To generate composite types like {@code char[]} and
  * {@code Set<Long>}, use the factory methods on {@link ArrayTypeName}, {@link
  * ParameterizedTypeName}, {@link TypeVariableName}, and {@link WildcardTypeName}.
  */

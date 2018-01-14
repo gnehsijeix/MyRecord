@@ -35,9 +35,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        /*MainComponent component = DaggerMainComponent.builder().mainModel(new MainModule()).build();
+        /*MainComponent component = DaggerMainComponent.builder().mainModel(new MainModule()).generate();
         component.inject(this);*/
-        //DaggerMainComponent.builder().mainModel(new MainModule(this)).build().inject(this);
+        //DaggerMainComponent.builder().mainModel(new MainModule(this)).generate().inject(this);
         DaggerActivityComponent.builder().appComponent(MyApplication.appComponent).build().inject(this);
         //test();
         testGsonDecode();

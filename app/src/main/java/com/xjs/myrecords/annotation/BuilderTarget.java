@@ -1,4 +1,4 @@
-package com.xjs.code;
+package com.xjs.myrecords.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -10,9 +10,8 @@ import java.lang.annotation.Target;
  *         on  2017/12/17
  *         desc:
  */
-@Target(ElementType.PARAMETER)
+@Target(ElementType.TYPE)
 @Retention(RetentionPolicy.SOURCE)
-public @interface BuildParam {
-
-    String name() default "";
+public @interface BuilderTarget {
+    boolean builderParamAll() default true;
 }
