@@ -61,7 +61,6 @@ public class BuilderClassGenerator {
      */
     private JavaFile generateClass(TypeElement classElement, List<Element> elementList) {
 
-
         List<FieldSpec> fieldSpecList = new ArrayList<>();
         List<MethodSpec> methodSpecList = new ArrayList<>();
 
