@@ -2,7 +2,6 @@ package com.xjs.code.utils;
 
 import com.squareup.javapoet.TypeName;
 
-import java.lang.reflect.Type;
 import java.util.List;
 
 import javax.lang.model.element.TypeElement;

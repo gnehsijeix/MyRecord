@@ -1,1 +1,1 @@
-include ':app', ':builder-compiler', ':builder-api'
+include ':app', ':builder-compiler', ':router'

@@ -1,16 +1,8 @@
 package com.xjs.code.feature.transformers;
 
-import com.squareup.javapoet.TypeName;
 import com.xjs.code.feature.TypeTransformer;
 
-import java.io.Serializable;
-import java.lang.reflect.Type;
-import java.util.List;
-
 import javax.lang.model.element.Element;
-import javax.lang.model.element.TypeElement;
-import javax.lang.model.type.TypeMirror;
-import javax.lang.model.util.Types;
 
 /**
  * @author xjs

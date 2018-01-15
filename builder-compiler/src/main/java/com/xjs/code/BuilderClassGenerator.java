@@ -67,24 +67,10 @@ public class BuilderClassGenerator {
         logger("%1$s >>> ", classElement.getSimpleName());
 
         for (Element fieldElement : elementList) {
-            //logger("parse field:[%2$s]", classElement.getQualifiedName(), fieldElement.getSimpleName().toString());
-            // FieldSpec fieldSpec = createFieldSpec(fieldElement);
-            // fieldSpecList.add(fieldSpec);
             MethodSpec methodSpec = createMethodSpec(classElement, fieldElement);
             methodSpecList.add(methodSpec);
             logger("parse method:[%2$s]", classElement.getQualifiedName(), fieldElement.getSimpleName().toString());
         }
-        //路由路径字段 note
-//        String routePath = classElement.getAnnotation(Route.class).path();
-//        FieldSpec routePathFieldSpec = FieldSpec.builder(String.class
-//                , String.format("%1$s_%2$s",
-//                        classElement.getSimpleName().toString(),
-//                        ROUTE_PATH_FIELD_NAME)
-//                , Modifier.PRIVATE)
-//                .initializer("$S", routePath)
-//                .build();
-//        fieldSpecList.add(routePathFieldSpec);
-
 
         // postcard 字段
         FieldSpec postcardField = FieldSpec.builder(ClassName.bestGuess(ALBABA_POSTCARD_QUALIFIED_CLASS_NAME),
@@ -111,7 +97,6 @@ public class BuilderClassGenerator {
                 .addStatement("return this.$N", ALBABA_POSTCARD_FIELD_NAME)
                 .build();
         methodSpecList.add(buildMethod);
-
         //类名
         TypeSpec classTypeSpec = TypeSpec
                 .classBuilder(getClassName(classElement))

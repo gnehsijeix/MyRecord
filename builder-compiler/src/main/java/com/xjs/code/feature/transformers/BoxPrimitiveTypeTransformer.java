@@ -1,12 +1,10 @@
 package com.xjs.code.feature.transformers;
 
 
-import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.TypeName;
 import com.xjs.code.feature.TypeTransformer;
 
 import javax.lang.model.element.Element;
-import javax.lang.model.element.TypeElement;
 
 /**
  * @author xjs

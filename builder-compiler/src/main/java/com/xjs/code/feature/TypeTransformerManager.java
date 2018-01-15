@@ -9,9 +9,7 @@ import com.xjs.code.feature.transformers.StringTypeTransformer;
 import com.xjs.code.utils.Logger;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.lang.model.element.Element;
 import javax.lang.model.util.Types;
