@@ -1,7 +1,7 @@
-package com.xjs.code.feature.transformers;
+package com.xjs.routebuilder.feature.transformers;
 
 
-import com.xjs.code.feature.TypeTransformer;
+import com.xjs.routebuilder.feature.TypeTransformer;
 
 import javax.lang.model.element.Element;
 
@@ -38,6 +38,8 @@ public class PrimitiveTypeTransformer implements TypeTransformer {
                 return "Float";
             case DOUBLE:
                 return "Double";
+            default:
+                break;
         }
         throw new RuntimeException("没有匹配该类型" + element.asType().toString());
     }

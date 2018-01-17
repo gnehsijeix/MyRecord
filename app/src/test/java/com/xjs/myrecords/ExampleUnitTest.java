@@ -1,6 +1,10 @@
 package com.xjs.myrecords;
 
+import com.xjs.myrecords.utils.MathUtils;
+
 import org.junit.Test;
+
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -28,9 +32,15 @@ public class ExampleUnitTest {
 
     }*/
     @Test
-    public void testCompora(){
+    public void testCompora() {
         String a = "a";
         String b = "b";
-        assertEquals(1,a.compareTo(b));
+        assertEquals(1, a.compareTo(b));
+    }
+
+    @Test
+    public void testRecursionGetCombination() {
+        List<int[]> combination = MathUtils.recursionGetCombination(3);
+        assertEquals("", combination.toString());
     }
 }

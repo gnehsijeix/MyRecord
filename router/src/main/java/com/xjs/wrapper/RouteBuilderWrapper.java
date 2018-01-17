@@ -8,9 +8,9 @@ import com.alibaba.android.arouter.facade.Postcard;
  *         desc:
  */
 
-public class ActivityBuilderWrapper extends IBuilderWrapper<Postcard> {
+public class RouteBuilderWrapper extends IBuilderWrapper<Postcard> {
 
-    public ActivityBuilderWrapper(Postcard target) {
+    public RouteBuilderWrapper(Postcard target) {
         super(target);
     }
 }

@@ -309,7 +309,7 @@ public final class TypeSpec {
         firstMember = false;
       }
 
-      // Types.
+      // RouteTypes.
       for (TypeSpec typeSpec : typeSpecs) {
         if (!firstMember) codeWriter.emit("\n");
         typeSpec.emit(codeWriter, null, kind.implicitTypeModifiers);

@@ -46,7 +46,7 @@ import static com.squareup.javapoet.Util.checkArgument;
  *       MethodSpec methods}, and {@linkplain TypeSpec types}.
  *   <li>{@code $S} escapes the value as a <em>string</em>, wraps it with double quotes, and emits
  *       that. For example, {@code 6" sandwich} is emitted {@code "6\" sandwich"}.
- *   <li>{@code $T} emits a <em>type</em> reference. Types will be imported if possible. Arguments
+ *   <li>{@code $T} emits a <em>type</em> reference. RouteTypes will be imported if possible. Arguments
  *       for types may be {@linkplain Class classes}, {@linkplain TypeMirror
 ,*       type mirrors}, and {@linkplain Element elements}.
  *   <li>{@code $$} emits a dollar sign.

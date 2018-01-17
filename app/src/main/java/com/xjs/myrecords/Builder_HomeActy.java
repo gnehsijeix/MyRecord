@@ -1,17 +1,15 @@
 package com.xjs.myrecords;
 
+import android.app.Activity;
+
 import com.alibaba.android.arouter.launcher.ARouter;
-import com.xjs.myrecords.annotation.TestFragment;
-import com.xjs.wrapper.ActivityBuilderWrapper;
-import com.xjs.wrapper.FragmentBuilderWrapper;
-import com.xjs.wrapper.Router;
-import com.xjs.wrapper.SupportFragmentBuilderWrapper;
+import com.xjs.wrapper.RouteBuilderWrapper;
 
-public class Builder_HomeActy {
+public class Builder_HomeActy extends Activity {
 
-    public static ActivityBuilderWrapper builder(int progress, String password) {
+    public static RouteBuilderWrapper builder(int progress, String password) {
 
-        return new ActivityBuilderWrapper(ARouter.getInstance().build("///")
+        return new RouteBuilderWrapper(ARouter.getInstance().build("///")
                 .withInt("_progress", progress)
                 .withString("_password", password));
     }

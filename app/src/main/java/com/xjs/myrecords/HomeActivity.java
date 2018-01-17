@@ -7,14 +7,8 @@ import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.xjs.myrecords.test.TestBean;
 import com.xjs.myrecords.view.CircleProgressView;
-import com.xjs.wrapper.IBuildable;
-import com.xjs.wrapper.Router;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
-
-@Route(path = "/com/xjs/code/home")
+@Route(path = "/com/xjs/routebuilder/home")
 public class HomeActivity extends AppCompatActivity {
     private CircleProgressView mCircleProgressView;
 
