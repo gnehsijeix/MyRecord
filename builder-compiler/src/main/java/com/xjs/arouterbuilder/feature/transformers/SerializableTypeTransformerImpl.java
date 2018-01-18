@@ -1,8 +1,8 @@
-package com.xjs.routebuilder.feature.transformers;
+package com.xjs.arouterbuilder.feature.transformers;
 
 import com.squareup.javapoet.TypeName;
-import com.xjs.routebuilder.feature.TypeTransformer;
-import com.xjs.routebuilder.utils.TypeUtils;
+import com.xjs.arouterbuilder.feature.TypeTransformer;
+import com.xjs.arouterbuilder.utils.TypeUtils;
 
 import java.io.Serializable;
 
@@ -16,11 +16,11 @@ import javax.lang.model.util.Types;
  *         desc:
  */
 
-public class SerializableTypeTransformer implements TypeTransformer {
+public class SerializableTypeTransformerImpl implements TypeTransformer {
 
     private Types typeUtils;
 
-    public SerializableTypeTransformer(Types typeUtils) {
+    public SerializableTypeTransformerImpl(Types typeUtils) {
         this.typeUtils = typeUtils;
     }
 

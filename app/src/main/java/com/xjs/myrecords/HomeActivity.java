@@ -8,7 +8,7 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.xjs.myrecords.test.TestBean;
 import com.xjs.myrecords.view.CircleProgressView;
 
-@Route(path = "/com/xjs/routebuilder/home")
+@Route(path = "/com/xjs/arouterbuilder/home")
 public class HomeActivity extends AppCompatActivity {
     private CircleProgressView mCircleProgressView;
 

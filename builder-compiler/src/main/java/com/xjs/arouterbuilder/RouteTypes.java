@@ -1,4 +1,4 @@
-package com.xjs.routebuilder;
+package com.xjs.arouterbuilder;
 
 /**
  * @author xjs

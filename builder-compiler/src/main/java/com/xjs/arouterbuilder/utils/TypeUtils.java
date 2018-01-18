@@ -1,4 +1,4 @@
-package com.xjs.routebuilder.utils;
+package com.xjs.arouterbuilder.utils;
 
 import com.squareup.javapoet.TypeName;
 

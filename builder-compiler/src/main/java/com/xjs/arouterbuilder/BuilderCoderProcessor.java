@@ -1,8 +1,8 @@
-package com.xjs.routebuilder;
+package com.xjs.arouterbuilder;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.google.auto.service.AutoService;
-import com.xjs.routebuilder.utils.Logger;
+import com.xjs.arouterbuilder.utils.Logger;
 
 
 import java.io.IOException;

@@ -1,7 +1,7 @@
-package com.xjs.routebuilder.feature.transformers;
+package com.xjs.arouterbuilder.feature.transformers;
 
 import com.squareup.javapoet.ClassName;
-import com.xjs.routebuilder.utils.TypeUtils;
+import com.xjs.arouterbuilder.utils.TypeUtils;
 
 import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
@@ -14,10 +14,10 @@ import javax.lang.model.util.Types;
  *         desc:
  */
 
-public class ParcelableTypeTransformer extends BaseTypeTransformer {
+public class ParcelableTypeTransformerImpl extends BaseTypeTransformer {
 
 
-    public ParcelableTypeTransformer(Types typesUtils) {
+    public ParcelableTypeTransformerImpl(Types typesUtils) {
         super(typesUtils);
     }
 

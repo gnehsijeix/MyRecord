@@ -1,4 +1,4 @@
-package com.xjs.routebuilder.utils;
+package com.xjs.arouterbuilder.utils;
 
 public class StringUtil {
     /**

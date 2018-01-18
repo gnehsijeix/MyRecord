@@ -1,12 +1,12 @@
-package com.xjs.routebuilder.feature;
+package com.xjs.arouterbuilder.feature;
 
 import com.squareup.javapoet.TypeName;
-import com.xjs.routebuilder.feature.transformers.BoxPrimitiveTypeTransformer;
-import com.xjs.routebuilder.feature.transformers.ParcelableTypeTransformer;
-import com.xjs.routebuilder.feature.transformers.PrimitiveTypeTransformer;
-import com.xjs.routebuilder.feature.transformers.SerializableTypeTransformer;
-import com.xjs.routebuilder.feature.transformers.StringTypeTransformer;
-import com.xjs.routebuilder.utils.Logger;
+import com.xjs.arouterbuilder.feature.transformers.BoxPrimitiveTypeTransformerImp;
+import com.xjs.arouterbuilder.feature.transformers.ParcelableTypeTransformerImpl;
+import com.xjs.arouterbuilder.feature.transformers.PrimitiveTypeTransformerImpl;
+import com.xjs.arouterbuilder.feature.transformers.SerializableTypeTransformerImpl;
+import com.xjs.arouterbuilder.feature.transformers.StringTypeTransformerImpl;
+import com.xjs.arouterbuilder.utils.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,10 +50,10 @@ public class TypeTransformerManager {
     }
 
     public void init() {
-        addTypeTransformer(new PrimitiveTypeTransformer());
-        addTypeTransformer(new BoxPrimitiveTypeTransformer());
-        addTypeTransformer(new StringTypeTransformer());
-        addTypeTransformer(new SerializableTypeTransformer(typeUtils));
-        addTypeTransformer(new ParcelableTypeTransformer(typeUtils));
+        addTypeTransformer(new PrimitiveTypeTransformerImpl());
+        addTypeTransformer(new BoxPrimitiveTypeTransformerImp());
+        addTypeTransformer(new StringTypeTransformerImpl());
+        addTypeTransformer(new SerializableTypeTransformerImpl(typeUtils));
+        addTypeTransformer(new ParcelableTypeTransformerImpl(typeUtils));
     }
 }

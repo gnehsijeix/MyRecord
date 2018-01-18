@@ -1,4 +1,4 @@
-package com.xjs.routebuilder.feature;
+package com.xjs.arouterbuilder.feature;
 
 import javax.lang.model.element.Element;
 

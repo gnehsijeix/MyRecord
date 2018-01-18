@@ -1,8 +1,8 @@
-package com.xjs.routebuilder;
+package com.xjs.arouterbuilder;
 
 import com.squareup.javapoet.JavaFile;
-import com.xjs.routebuilder.feature.TypeTransformerManager;
-import com.xjs.routebuilder.utils.Logger;
+import com.xjs.arouterbuilder.feature.TypeTransformerManager;
+import com.xjs.arouterbuilder.utils.Logger;
 
 import java.io.IOException;
 import java.util.List;
@@ -25,7 +25,7 @@ public class BuilderClassFactory {
         TypeTransformerManager typeTransformerManager = new TypeTransformerManager(logger,types);
         typeTransformerManager.init();
         for (Map.Entry<TypeElement, List<Element>> entry : elementListMap.entrySet()) {
-            JavaFile javaFile = BuilderGenerator.create(entry.getKey(), entry.getValue(), logger,typeTransformerManager);
+            JavaFile javaFile = BuilderGenerator.create(entry.getKey(), entry.getValue(),logger,typeTransformerManager,types);
             javaFile.writeTo(filer);
         }
 

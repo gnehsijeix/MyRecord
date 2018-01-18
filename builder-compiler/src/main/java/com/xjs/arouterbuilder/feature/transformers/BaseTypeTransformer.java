@@ -1,6 +1,6 @@
-package com.xjs.routebuilder.feature.transformers;
+package com.xjs.arouterbuilder.feature.transformers;
 
-import com.xjs.routebuilder.feature.TypeTransformer;
+import com.xjs.arouterbuilder.feature.TypeTransformer;
 
 import javax.lang.model.util.Types;
 

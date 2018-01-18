@@ -14,7 +14,7 @@ public final class Router {
      * @param <T>     ；
      * @return ；
      */
-    public static <T> T build(IBuilderWrapper<T> wrapper) {
+    public static <T> T with(IBuilderWrapper<T> wrapper) {
         return wrapper.getTarget();
     }
 

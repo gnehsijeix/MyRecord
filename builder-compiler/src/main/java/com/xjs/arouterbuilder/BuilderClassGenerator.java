@@ -1,17 +1,17 @@
-package com.xjs.routebuilder;
+package com.xjs.arouterbuilder;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.squareup.javapoet.ClassName;
-import com.squareup.javapoet.CodeBlock;
 import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.ParameterSpec;
 import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
-import com.xjs.routebuilder.feature.TypeTransformerManager;
-import com.xjs.routebuilder.utils.Logger;
-import com.xjs.routebuilder.utils.StringUtil;
+import com.xjs.arouterbuilder.feature.TypeTransformerManager;
+import com.xjs.arouterbuilder.utils.Logger;
+import com.xjs.arouterbuilder.utils.StringUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,8 +24,10 @@ import javax.lang.model.element.PackageElement;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.VariableElement;
 
-import static com.xjs.routebuilder.Constants.ALBABA_POSTCARD_FIELD_NAME;
-import static com.xjs.routebuilder.Constants.GENERATE_CLASS_NAME_PREFIX;
+import static com.xjs.arouterbuilder.Constants.AROUTER_QUALIFIED_CLASS_NAME;
+import static com.xjs.arouterbuilder.Constants.AROUTER_POSTCARD_FIELD_NAME;
+import static com.xjs.arouterbuilder.Constants.AROUTER_POSTCARD_QUALIFIED_CLASS_NAME;
+import static com.xjs.arouterbuilder.Constants.GENERATE_CLASS_NAME_PREFIX;
 
 /**
  * @author xjs
@@ -33,21 +35,21 @@ import static com.xjs.routebuilder.Constants.GENERATE_CLASS_NAME_PREFIX;
  *         desc:
  */
 
-public class BuilderGenerator {
+public class BuilderClassGenerator {
 
     private TypeElement classElement;
     private List<Element> fieldElements;
 
+
     private Logger logger;
-    private TypeTransformerManager typeTransformerManager;
+    private TypeTransformerManager transformerManager;
 
-    private static final String STATIC_BUILDER_METHOD_NAME = "builder";
 
-    public BuilderGenerator(TypeElement classElement, List<Element> fieldElements,
-                             Logger logger, TypeTransformerManager transformerManager) {
+    private BuilderClassGenerator(TypeElement classElement, List<Element> fieldElements,
+                                  Logger logger, TypeTransformerManager transformerManager) {
         this.classElement = classElement;
         this.fieldElements = fieldElements;
-        this.typeTransformerManager = transformerManager;
+        this.transformerManager = transformerManager;
         this.logger = logger;
     }
 
@@ -59,25 +61,47 @@ public class BuilderGenerator {
      */
     private JavaFile generateClass(TypeElement classElement, List<Element> elementList) {
 
-        logger("generate class > %1$s", classElement.getSimpleName());
+        List<FieldSpec> fieldSpecList = new ArrayList<>();
         List<MethodSpec> methodSpecList = new ArrayList<>();
-        List<Element> musetElements = new ArrayList<>();
-        List<Element> setElements = new ArrayList<>();
 
-        for (Element element : elementList) {
-            Autowired autowired = element.getAnnotation(Autowired.class);
-            if (autowired.required()) {
-                musetElements.add(element);
-            } else {
-                setElements.add(element);
-            }
+        logger("%1$s >>> ", classElement.getSimpleName());
+
+        for (Element fieldElement : elementList) {
+            MethodSpec methodSpec = createMethodSpec(classElement, fieldElement);
+            methodSpecList.add(methodSpec);
+            logger("parse method:[%2$s]", classElement.getQualifiedName(), fieldElement.getSimpleName().toString());
         }
 
+        // postcard 字段
+        FieldSpec postcardField = FieldSpec.builder(ClassName.bestGuess(AROUTER_POSTCARD_QUALIFIED_CLASS_NAME),
+                AROUTER_POSTCARD_FIELD_NAME, Modifier.PRIVATE)
+                .initializer("$N", "null")
+                .build();
+        fieldSpecList.add(postcardField);
 
+        //构造函数
+        String routePath = classElement.getAnnotation(Route.class).path();
+        MethodSpec constructor = MethodSpec.constructorBuilder()
+                .addModifiers(Modifier.PUBLIC)
+                .addStatement("this.$N = $N.getInstance().build($S)"
+                        , AROUTER_POSTCARD_FIELD_NAME
+                        , AROUTER_QUALIFIED_CLASS_NAME
+                        , routePath)
+                .build();
+        methodSpecList.add(constructor);
+
+        //build函数
+        MethodSpec buildMethod = MethodSpec.methodBuilder("build")
+                .addModifiers(Modifier.PUBLIC)
+                .returns(ClassName.bestGuess(AROUTER_POSTCARD_QUALIFIED_CLASS_NAME))
+                .addStatement("return this.$N", AROUTER_POSTCARD_FIELD_NAME)
+                .build();
+        methodSpecList.add(buildMethod);
         //类名
         TypeSpec classTypeSpec = TypeSpec
                 .classBuilder(getClassName(classElement))
                 .addModifiers(Modifier.PUBLIC)
+                .addFields(fieldSpecList)
                 .addMethods(methodSpecList)
                 .build();
 
@@ -86,7 +110,6 @@ public class BuilderGenerator {
         return JavaFile.builder(getClassElementPackageName(classElement), classTypeSpec)
                 .build();
     }
-
 
     private FieldSpec createFieldSpec(Element element) {
 
@@ -105,67 +128,9 @@ public class BuilderGenerator {
         return builder.build();
     }
 
-    public static List<int[]> recursionGetCombination(int position) {
-        List<int[]> listList = new ArrayList<>();
-        int[] singleSelfArray = new int[]{position};
-        listList.add(singleSelfArray);
-        if (position == 0) {
-            return listList;
-        }
-        int[] fullIterator = new int[position];
-
-        for (int i = position - 1; i >= 0; i--) {
-            int[] iterator = new int[2];
-            iterator[0] = i;
-            iterator[1] = position;
-            listList.add(iterator);
-        }
-        listList.add(fullIterator);
-        listList.addAll(recursionGetCombination(position - 1));
-        return listList;
-    }
-
-    /**
-     * new RouteBuilderWrapper(ARouter.getInstance().build("///")
-     * .withInt("_progress", progress)
-     * .withString("_password", password))
-     *
-     * @param typeElement class Element
-     * @param elements    parameter element
-     * @return ;
-     */
-    private MethodSpec createStaticBuilderMethod(TypeElement typeElement, List<Element> elements) {
-        List<ParameterSpec> parameterSpecList = new ArrayList<>();
-
-        CodeBlock.Builder arouterParamCodeBlockBuilder = CodeBlock.builder().add("$N.getInstance()", Constants.ALBABA_AROUTE_QUALIFIED_CLASS_NAME);
-        for (Element element : elements) {
-            String parameterName = replaceStartWith_m_privateField(element.getSimpleName().toString());
-            ParameterSpec parameterSpec = ParameterSpec.builder(TypeName.get(element.asType())
-                    , parameterName)
-                    .build();
-            parameterSpecList.add(parameterSpec);
-            arouterParamCodeBlockBuilder.add(".with$N($S,$N)"
-                    , typeTransformerManager.transform(element)
-                    , getFieldKey(element)
-                    , parameterName);
-        }
-
-        CodeBlock codeBlock = CodeBlock.of("new $N($N)"
-                , Constants.ROUTE_BUILDER_WRAPPER_CLASS_NAME
-                , arouterParamCodeBlockBuilder.toString());
-
-        return MethodSpec.methodBuilder(STATIC_BUILDER_METHOD_NAME)
-                .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
-                .addParameters(parameterSpecList)
-                .addStatement(codeBlock)
-                .returns(ClassName.bestGuess(Constants.ROUTE_BUILDER_WRAPPER_CLASS_NAME))
-                .build();
-    }
-
-
     private MethodSpec createMethodSpec(TypeElement typeElement, Element element) {
 
-        String parameterName = replaceStartWith_m_privateField(element.getSimpleName().toString());
+        String parameterName = element.getSimpleName().toString().toLowerCase();
 
         ParameterSpec parameterSpec = ParameterSpec.builder(TypeName.get(element.asType())
                 , parameterName)
@@ -176,8 +141,8 @@ public class BuilderGenerator {
                 .addParameter(parameterSpec)
                 .returns(ClassName.bestGuess(getClassName(typeElement)))
                 .addStatement("this.$N.with$N($S,$N)"
-                        , ALBABA_POSTCARD_FIELD_NAME
-                        , typeTransformerManager.transform(element)
+                        , AROUTER_POSTCARD_FIELD_NAME
+                        , transformerManager.transform(element)
                         , getFieldKey(element)
                         , parameterName)
                 .addStatement("return this")
@@ -211,7 +176,7 @@ public class BuilderGenerator {
         if (matcher.find()) {
             return fieldName.substring(1);
         }
-        return StringUtil.firstCharacterToUpper(fieldName);
+        return fieldName;
     }
 
     private String replaceUnderLine(String fieldName) {
@@ -241,8 +206,7 @@ public class BuilderGenerator {
     }
 
     public static JavaFile create(TypeElement classElement, List<Element> fieldElements, Logger logger, TypeTransformerManager transformerManager) {
-        return new BuilderGenerator(classElement, fieldElements, logger, transformerManager).generate();
+        return new BuilderClassGenerator(classElement, fieldElements, logger, transformerManager).generate();
     }
 
 }
-
