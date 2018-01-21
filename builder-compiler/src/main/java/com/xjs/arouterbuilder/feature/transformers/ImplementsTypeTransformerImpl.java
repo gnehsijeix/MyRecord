@@ -13,7 +13,7 @@ import javax.lang.model.element.Element;
 public class ImplementsTypeTransformerImpl implements TypeTransformer {
 
     @Override
-    public boolean isForType(Element element) {
+    public boolean accept(Element element) {
         return false;
     }
 

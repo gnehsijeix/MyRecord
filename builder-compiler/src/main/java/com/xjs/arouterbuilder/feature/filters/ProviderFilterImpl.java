@@ -14,11 +14,11 @@ import javax.lang.model.util.Types;
  *         desc:
  */
 
-public class ProviderFilterimpl implements IRouteAnnotationFilter {
+public class ProviderFilterImpl implements IRouteAnnotationFilter {
 
     private Types typeUtils;
 
-    public ProviderFilterimpl(Types types) {
+    public ProviderFilterImpl(Types types) {
         this.typeUtils = types;
     }
 

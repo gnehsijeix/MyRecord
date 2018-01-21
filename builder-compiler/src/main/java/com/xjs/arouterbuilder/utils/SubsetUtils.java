@@ -1,5 +1,6 @@
 package com.xjs.arouterbuilder.utils;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -47,5 +48,25 @@ public class SubsetUtils {
         System.arraycopy(startInts, 0, result, 0, startInts.length);
         System.arraycopy(endInts, 0, result, startInts.length, endInts.length);
         return result;
+    }
+
+
+    public static ArrayList<ArrayList<Integer>> getSubsets2(ArrayList<Integer> set){
+        ArrayList<ArrayList<Integer>> allsubsets = new ArrayList<ArrayList<Integer>>();
+        int max = 1 << set.size(); //how many sub sets
+        for(int i=0; i<max; i++){
+            int index = 0;
+            int k = i;
+            ArrayList<Integer> s = new ArrayList<Integer>();
+            while(k > 0){
+                if((k&1) > 0){
+                    s.add(set.get(index));
+                }
+                k>>=1;
+                index++;
+            }
+            allsubsets.add(s);
+        }
+        return allsubsets;
     }
 }

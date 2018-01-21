@@ -14,7 +14,7 @@ import javax.lang.model.element.Element;
 public class StringTypeTransformerImpl implements TypeTransformer {
 
     @Override
-    public boolean isForType(Element element) {
+    public boolean accept(Element element) {
         return TypeName.get(element.asType()).toString().equals(String.class.getName());
     }
 

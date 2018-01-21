@@ -13,10 +13,7 @@ android {
 
         javaCompileOptions {
             annotationProcessorOptions {
-                arguments = [
-                        moduleName: "builder-compiler"
-                ]
-
+                arguments = [moduleName: "builder-compiler"]
             }
         }
 
@@ -29,6 +26,10 @@ android {
     }
 
 
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')

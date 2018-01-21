@@ -5,6 +5,8 @@ import com.xjs.myrecords.utils.MathUtils;
 import org.junit.Test;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static org.junit.Assert.*;
 
@@ -42,5 +44,17 @@ public class ExampleUnitTest {
     public void testRecursionGetCombination() {
         List<int[]> combination = MathUtils.recursionGetCombination(3);
         assertEquals("", combination.toString());
+    }
+
+    @Test
+    public void testRegex() {
+        String string = "mProgress";
+        //匹配 类似于 mUserName这样的
+        String regex = "m[A-Z]";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(string);
+        boolean find = matcher.find();
+        assertEquals(true, find);
+
     }
 }

@@ -15,7 +15,7 @@ public class PrimitiveTypeTransformerImpl implements TypeTransformer {
 
 
     @Override
-    public boolean isForType(Element element) {
+    public boolean accept(Element element) {
         return element.asType().getKind().isPrimitive();
     }
 

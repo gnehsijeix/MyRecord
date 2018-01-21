@@ -10,7 +10,7 @@ import javax.lang.model.element.Element;
 
 public interface TypeTransformer {
 
-    boolean isForType(Element element);
+    boolean accept(Element element);
 
     CharSequence transform(Element element);
 }

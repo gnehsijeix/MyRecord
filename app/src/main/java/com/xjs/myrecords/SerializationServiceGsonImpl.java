@@ -15,6 +15,7 @@ import javax.inject.Inject;
  *         on 2018/1/18
  *         desc:序列化的实现
  */
+@Route(path = "/service/json")
 public class SerializationServiceGsonImpl implements SerializationService {
 
     Gson gson;

@@ -8,8 +8,25 @@ public class StringUtil {
      * @return ;
      */
     public static String firstCharacterToUpper(String srcStr) {
+        if (srcStr == null) {
+            return "";
+        }
+        if (srcStr.length() == 1) {
+            return srcStr.toUpperCase();
+        }
         return srcStr.substring(0, 1).toUpperCase() + srcStr.substring(1);
     }
+
+    public static String firstCharacterToLow(String srcStr) {
+        if (srcStr == null) {
+            return "";
+        }
+        if (srcStr.length() == 1) {
+            return srcStr.toLowerCase();
+        }
+        return srcStr.substring(0, 1).toLowerCase() + srcStr.substring(1);
+    }
+
 
     /**
      * 替换字符串并让它的下一个字母为大写
@@ -19,7 +36,7 @@ public class StringUtil {
      * @param ob     ;
      * @return ;
      */
-    public static String replaceUnderlineAndfirstToUpper(String srcStr, String org, String ob) {
+    public static String replaceUnderlineAndFirstToUpper(String srcStr, String org, String ob) {
         String newString = "";
         int first = 0;
         while (srcStr.contains(org)) {

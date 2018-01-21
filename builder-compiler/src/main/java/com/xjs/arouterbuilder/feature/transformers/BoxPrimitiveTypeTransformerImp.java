@@ -16,7 +16,7 @@ public class BoxPrimitiveTypeTransformerImp implements TypeTransformer {
 
 
     @Override
-    public boolean isForType(Element element) {
+    public boolean accept(Element element) {
         switch (TypeName.get(element.asType()).toString()) {
             //case "java.lang.Void":
             case "java.lang.Boolean":

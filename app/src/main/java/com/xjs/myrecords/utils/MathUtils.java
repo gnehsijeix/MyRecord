@@ -30,4 +30,24 @@ public class MathUtils {
         listList.addAll(recursionGetCombination(position - 1));
         return listList;
     }
+
+    public static ArrayList<ArrayList<Integer>> getSubsets(ArrayList<Integer> set) {
+        ArrayList<ArrayList<Integer>> allSubsets = new ArrayList<>();
+        // 子集合个数
+        int max = 1 << set.size();
+        for (int i = 0; i < max; i++) {
+            int index = 0;
+            int k = i;
+            ArrayList<Integer> s = new ArrayList<Integer>();
+            while (k > 0) {
+                if ((k & 1) > 0) {
+                    s.add(set.get(index));
+                }
+                k >>= 1;
+                index++;
+            }
+            allSubsets.add(s);
+        }
+        return allSubsets;
+    }
 }

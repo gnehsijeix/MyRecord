@@ -2,10 +2,16 @@ package com.xjs.arouterbuilder.utils;
 
 import com.squareup.javapoet.TypeName;
 
+import java.lang.reflect.Type;
 import java.util.List;
 
+import javax.lang.model.element.Element;
+import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.TypeElement;
+import javax.lang.model.type.NoType;
+import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
+import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
 
 /**
@@ -24,21 +30,28 @@ public class TypeUtils {
      * @return ；
      */
     public static boolean recursionIsImplements(TypeElement classElement, TypeName impsInterface, Types typeUtils) {
-
-        if (TypeName.get(classElement.asType()).equals(TypeName.get(Object.class))) {
+        //包括但不限于 object
+        if (classElement.asType().getKind() == TypeKind.NONE) {
             return false;
         }
+
         if (TypeName.get(classElement.asType()).equals(impsInterface)) {
             return true;
         }
 
         List<? extends TypeMirror> list = classElement.getInterfaces();
-        for (TypeMirror typeMirror : list) {
-            if (TypeName.get(typeMirror).equals(impsInterface)) {
+        for (TypeMirror interfaceTypeMirror : list) {
+            if (TypeName.get(interfaceTypeMirror).equals(impsInterface)) {
                 return true;
+            } else {
+                TypeElement interfaceElement = (TypeElement) typeUtils.asElement(interfaceTypeMirror);
+                if (recursionIsImplements(interfaceElement, impsInterface, typeUtils)) {
+                    return true;
+                }
             }
         }
-        if (TypeName.get(classElement.getSuperclass()).equals(TypeName.get(Object.class))) {
+
+        if (classElement.getSuperclass().getKind() == TypeKind.NONE) {
             return false;
         } else {
             return recursionIsImplements((TypeElement) typeUtils.asElement(classElement.getSuperclass()), impsInterface, typeUtils);

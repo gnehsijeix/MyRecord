@@ -25,7 +25,7 @@ public class SerializableTypeTransformerImpl implements TypeTransformer {
     }
 
     @Override
-    public boolean isForType(Element element) {
+    public boolean accept(Element element) {
         Element typeElement = typeUtils.asElement(element.asType());
         return typeElement instanceof TypeElement
                 && TypeUtils.recursionIsImplements(

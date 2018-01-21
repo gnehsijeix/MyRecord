@@ -1,7 +1,9 @@
 package com.xjs.arouterbuilder;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.google.auto.service.AutoService;
+import com.xjs.arouterbuilder.feature.RouteAnnotationFilter;
 import com.xjs.arouterbuilder.utils.Logger;
 
 
@@ -20,7 +22,9 @@ import javax.annotation.processing.Processor;
 import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
+import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.TypeElement;
+import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
 
 
@@ -36,23 +40,26 @@ import javax.lang.model.util.Types;
  */
 
 @AutoService(Processor.class)
-public class BuilderCoderProcessor extends AbstractProcessor {
+public class BuilderProcessor extends AbstractProcessor {
 
     private Filer filer;
     private Logger logger;
     private Types typeUtils;
+    private Elements elementUtils;
+    private RouteAnnotationFilter routeAnnotationFilter;
 
     private static final String MESSAGE_TAG = "BuilderCoder";
 
     @Override
     public synchronized void init(ProcessingEnvironment processingEnv) {
         super.init(processingEnv);
-        processingEnv.getElementUtils();
-        typeUtils = processingEnv.getTypeUtils();
         processingEnv.getMessager();
         processingEnv.getLocale();
+        typeUtils = processingEnv.getTypeUtils();
+        elementUtils = processingEnv.getElementUtils();
         filer = processingEnv.getFiler();
         logger = new Logger(processingEnv.getMessager());
+        routeAnnotationFilter = RouteAnnotationFilter.create(typeUtils);
     }
 
 
@@ -64,7 +71,7 @@ public class BuilderCoderProcessor extends AbstractProcessor {
     @Override
     public Set<String> getSupportedAnnotationTypes() {
         Set<String> supportedTypes = new HashSet<>(4);
-        supportedTypes.add(Autowired.class.getCanonicalName());
+        supportedTypes.add(Route.class.getCanonicalName());
         return supportedTypes;
     }
 
@@ -79,10 +86,11 @@ public class BuilderCoderProcessor extends AbstractProcessor {
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
 
         logger.info("process start >>>>");
-        Set<? extends Element> elements = roundEnv.getElementsAnnotatedWith(Autowired.class);
+        Set<? extends Element> elements = roundEnv.getElementsAnnotatedWith(Route.class);
+
         Map<TypeElement, List<Element>> elementListMap = findAndSetFiled(elements);
         try {
-            BuilderClassFactory.create(elementListMap, logger, filer, typeUtils);
+            BuilderClassGenerator.create(elementListMap, logger, filer, typeUtils);
         } catch (IOException e) {
             e.printStackTrace();
             logger.error("process error" + e.getMessage());
@@ -91,15 +99,27 @@ public class BuilderCoderProcessor extends AbstractProcessor {
         return false;
     }
 
-    private Map<TypeElement, List<Element>> findAndSetFiled(Set<? extends Element> elements) {
+    private Map<TypeElement, List<Element>> findAndSetFiled(Set<? extends Element> classElements) {
         Map<TypeElement, List<Element>> elementListMap = new HashMap<>();
-        for (Element element : elements) {
-            //获取父级元素
-            TypeElement classElement = (TypeElement) element.getEnclosingElement();
-            if (!elementListMap.containsKey(classElement)) {
-                elementListMap.put(classElement, new ArrayList<>());
+
+        for (Element element : classElements) {
+            TypeElement classElement = (TypeElement) element;
+            logger.info(String.format("filter->%1$s", classElement.getQualifiedName()));
+            boolean isSkip = routeAnnotationFilter.filter(classElement);
+            logger.info(String.format("filter<-%1$s", String.valueOf(isSkip)));
+            if (isSkip) {
+                continue;
             }
-            elementListMap.get(classElement).add(element);
+            List<? extends Element> elements = elementUtils.getAllMembers(classElement);
+            elementListMap.put(classElement, new ArrayList<>());
+            for (Element memberElement : elements) {
+                if (memberElement.getKind() == ElementKind.FIELD) {
+                    if (memberElement.getAnnotation(Autowired.class) != null) {
+                        elementListMap.get(classElement).add(memberElement);
+                    }
+                }
+
+            }
         }
         return elementListMap;
     }

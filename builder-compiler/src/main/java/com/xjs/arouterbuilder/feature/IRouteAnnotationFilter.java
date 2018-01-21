@@ -1,7 +1,5 @@
 package com.xjs.arouterbuilder.feature;
 
-import com.alibaba.android.arouter.facade.annotation.Route;
-
 import javax.lang.model.element.TypeElement;
 
 /**

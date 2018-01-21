@@ -1,5 +1,8 @@
 package com.xjs.arouterbuilder.feature;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import com.squareup.javapoet.TypeName;
 import com.xjs.arouterbuilder.feature.transformers.BoxPrimitiveTypeTransformerImp;
 import com.xjs.arouterbuilder.feature.transformers.ParcelableTypeTransformerImpl;
@@ -8,8 +11,8 @@ import com.xjs.arouterbuilder.feature.transformers.SerializableTypeTransformerIm
 import com.xjs.arouterbuilder.feature.transformers.StringTypeTransformerImpl;
 import com.xjs.arouterbuilder.utils.Logger;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.lang.model.element.Element;
 import javax.lang.model.util.Types;
@@ -23,37 +26,45 @@ import javax.lang.model.util.Types;
 public class TypeTransformerManager {
 
     private Logger logger;
-    private List<TypeTransformer> typeTransformerSet;
     private Types typeUtils;
+    private Set<TypeTransformer> typeTransformerSet;
 
-    public TypeTransformerManager(Logger logger, Types typeUtils) {
-        this.typeTransformerSet = new ArrayList<>();
-        this.logger = logger;
-        this.typeUtils = typeUtils;
+    public static TypeTransformerManager create(Logger logger, Types types) {
+        return create(logger, types, null);
     }
 
-    public TypeTransformerManager addTypeTransformer(TypeTransformer typeTransformer) {
-        typeTransformerSet.add(typeTransformer);
-        return this;
+    public static TypeTransformerManager create(Logger logger, Types types, Set<TypeTransformer> typeTransformerList) {
+        return new TypeTransformerManager(logger, types, typeTransformerList);
+    }
+
+
+    private TypeTransformerManager(@NonNull Logger logger, @NonNull Types typeUtils, @Nullable Set<TypeTransformer> typeTransformerList) {
+        if (typeTransformerList != null) {
+            this.typeTransformerSet = typeTransformerList;
+        } else {
+            this.typeTransformerSet = new HashSet<>();
+        }
+        this.logger = logger;
+        this.typeUtils = typeUtils;
+        init();
     }
 
 
     public CharSequence transform(Element target) {
         logger.info(target.getSimpleName() + "transformType:" + TypeName.get(target.asType()).toString());
-        for (int i = 0; i < typeTransformerSet.size(); i++) {
-            TypeTransformer typeTransformer = typeTransformerSet.get(i);
-            if (typeTransformer.isForType(target)) {
+        for (TypeTransformer typeTransformer : typeTransformerSet) {
+            if (typeTransformer.accept(target)) {
                 return typeTransformer.transform(target);
             }
         }
         return "Object";
     }
 
-    public void init() {
-        addTypeTransformer(new PrimitiveTypeTransformerImpl());
-        addTypeTransformer(new BoxPrimitiveTypeTransformerImp());
-        addTypeTransformer(new StringTypeTransformerImpl());
-        addTypeTransformer(new SerializableTypeTransformerImpl(typeUtils));
-        addTypeTransformer(new ParcelableTypeTransformerImpl(typeUtils));
+    private void init() {
+        typeTransformerSet.add(new PrimitiveTypeTransformerImpl());
+        typeTransformerSet.add(new BoxPrimitiveTypeTransformerImp());
+        typeTransformerSet.add(new StringTypeTransformerImpl());
+        typeTransformerSet.add(new SerializableTypeTransformerImpl(typeUtils));
+        typeTransformerSet.add(new ParcelableTypeTransformerImpl(typeUtils));
     }
 }

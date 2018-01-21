@@ -22,7 +22,7 @@ public class ParcelableTypeTransformerImpl extends BaseTypeTransformer {
     }
 
     @Override
-    public boolean isForType(Element element) {
+    public boolean accept(Element element) {
         return element instanceof TypeElement &&
                 TypeUtils.recursionIsImplements(
                         (TypeElement) element

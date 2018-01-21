@@ -12,5 +12,7 @@ import com.alibaba.android.arouter.launcher.ARouter;
 
 public class TestFragment extends Fragment {
 
-
+    public static TestFragment bulder(){
+        return (TestFragment) ARouter.getInstance().build("///").navigation();
+    }
 }
