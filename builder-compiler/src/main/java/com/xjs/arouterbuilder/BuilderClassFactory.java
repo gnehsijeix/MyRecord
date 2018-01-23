@@ -182,12 +182,12 @@ public class BuilderClassFactory {
         CodeBlock.Builder codeBlockBuilder = CodeBlock.builder()
                 .add("return new $N(", Constants.ROUTE_BUILDER_WRAPPER_CLASS_NAME)
                 .add(arouterParamCodeBlockBuilder.build())
-                .add(")");
+                .add(");");
 
         return MethodSpec.methodBuilder(STATIC_BUILDER_METHOD_NAME + builderMethodNameSuffix)
                 .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
                 .addParameters(parameterSpecList)
-                .addStatement(codeBlockBuilder.build())
+                .addCode(codeBlockBuilder.build())
                 .returns(ClassName.bestGuess(Constants.ROUTE_BUILDER_WRAPPER_CLASS_NAME))
                 .build();
     }
@@ -221,12 +221,13 @@ public class BuilderClassFactory {
         CodeBlock returnCodes = CodeBlock.builder()
                 .add("return ($N)", classElement.getQualifiedName().toString())
                 .add(aRouterParamCodeBlockBuilder.build())
+                .add(";")
                 .build();
 
         return MethodSpec.methodBuilder(STATIC_BUILDER_METHOD_NAME + builderMethodNameSuffix)
                 .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
                 .addParameters(parameterSpecList)
-                .addStatement(returnCodes)
+                .addCode(returnCodes)
                 .returns(ClassName.bestGuess(classElement.getQualifiedName().toString()))
                 .build();
 
@@ -260,7 +261,6 @@ public class BuilderClassFactory {
         }
         return fieldName;
     }
-
 
 
     private static String getClassName(TypeElement element) {
