@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.squareup.javapoet.TypeName;
+import com.xjs.arouterbuilder.feature.transformers.ArrayTypeTransformerImpl;
 import com.xjs.arouterbuilder.feature.transformers.BoxPrimitiveTypeTransformerImp;
 import com.xjs.arouterbuilder.feature.transformers.ParcelableTypeTransformerImpl;
 import com.xjs.arouterbuilder.feature.transformers.PrimitiveTypeTransformerImpl;
@@ -51,7 +52,7 @@ public class TypeTransformerManager {
 
 
     public CharSequence transform(Element target) {
-        logger.info(target.getSimpleName() + "transformType:" + TypeName.get(target.asType()).toString());
+        logger.info(target.getSimpleName() + "->transformType:" + TypeName.get(target.asType()).toString());
         for (TypeTransformer typeTransformer : typeTransformerSet) {
             if (typeTransformer.accept(target)) {
                 return typeTransformer.transform(target);
@@ -66,5 +67,6 @@ public class TypeTransformerManager {
         typeTransformerSet.add(new StringTypeTransformerImpl());
         typeTransformerSet.add(new SerializableTypeTransformerImpl(typeUtils));
         typeTransformerSet.add(new ParcelableTypeTransformerImpl(typeUtils));
+        typeTransformerSet.add(new ArrayTypeTransformerImpl(typeUtils));
     }
 }

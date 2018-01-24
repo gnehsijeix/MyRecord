@@ -1,5 +1,6 @@
 package com.xjs.myrecords;
 
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -45,5 +46,6 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         mCircleProgressView = (CircleProgressView) findViewById(R.id.main_circle_progress_view);
+
     }
 }
