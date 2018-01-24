@@ -1,1 +1,1 @@
-include ':app', ':builder-compiler', ':testjunit',":router"
+include ':app', ':builder-compiler', ':testmodel', ":router"

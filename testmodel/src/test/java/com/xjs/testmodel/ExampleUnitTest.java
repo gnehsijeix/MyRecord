@@ -1,4 +1,4 @@
-package com.xjs.testjunit;
+package com.xjs.testmodel;
 
 import org.junit.Test;
 
