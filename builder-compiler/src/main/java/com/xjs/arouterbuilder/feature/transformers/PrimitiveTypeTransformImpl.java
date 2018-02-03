@@ -1,7 +1,7 @@
 package com.xjs.arouterbuilder.feature.transformers;
 
 
-import com.xjs.arouterbuilder.feature.TypeTransformer;
+import com.xjs.arouterbuilder.feature.ITypeTransform;
 
 import javax.lang.model.element.Element;
 
@@ -11,7 +11,7 @@ import javax.lang.model.element.Element;
  *         desc: 基础类型的
  */
 
-public class PrimitiveTypeTransformerImpl implements TypeTransformer {
+public class PrimitiveTypeTransformImpl implements ITypeTransform {
 
 
     @Override

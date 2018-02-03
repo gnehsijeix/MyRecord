@@ -12,7 +12,7 @@ import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.ParameterSpec;
 import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
-import com.xjs.arouterbuilder.feature.TypeTransformerManager;
+import com.xjs.arouterbuilder.feature.TypeTransformer;
 import com.xjs.arouterbuilder.utils.Logger;
 import com.xjs.arouterbuilder.utils.StringUtil;
 import com.xjs.arouterbuilder.utils.SubsetUtils;
@@ -44,15 +44,15 @@ public class BuilderClassFactory {
     private List<Element> fieldElements;
     private Types typeUtils;
     private Logger logger;
-    private TypeTransformerManager typeTransformerManager;
+    private TypeTransformer typeTransformer;
 
     private static final String STATIC_BUILDER_METHOD_NAME = "builder";
 
     public BuilderClassFactory(TypeElement classElement, List<Element> fieldElements,
-                               Logger logger, TypeTransformerManager transformerManager, Types typeUtils) {
+                               Logger logger, TypeTransformer transformerManager, Types typeUtils) {
         this.classElement = classElement;
         this.fieldElements = fieldElements;
-        this.typeTransformerManager = transformerManager;
+        this.typeTransformer = transformerManager;
         this.logger = logger;
         this.typeUtils = typeUtils;
     }
@@ -174,7 +174,7 @@ public class BuilderClassFactory {
             parameterSpecList.add(parameterSpec);
             //.withXxx("key",value)
             arouterParamCodeBlockBuilder.add(".with$N($S,$N)"
-                    , typeTransformerManager.transform(element)
+                    , typeTransformer.transform(element)
                     , getParamKey(element)
                     , parameterName);
         }
@@ -209,7 +209,7 @@ public class BuilderClassFactory {
             parameterSpecList.add(parameterSpec);
             //.withXxx("key",value)
             aRouterParamCodeBlockBuilder.add(".with$N($S,$N)"
-                    , typeTransformerManager.transform(element)
+                    , typeTransformer.transform(element)
                     , getParamKey(element)
                     , parameterName);
         }
@@ -284,7 +284,7 @@ public class BuilderClassFactory {
 
     }
 
-    public static JavaFile create(TypeElement classElement, List<Element> fieldElements, Logger logger, TypeTransformerManager transformerManager, Types typeUtils) {
+    public static JavaFile create(TypeElement classElement, List<Element> fieldElements, Logger logger, TypeTransformer transformerManager, Types typeUtils) {
         return new BuilderClassFactory(classElement, fieldElements, logger, transformerManager, typeUtils).build();
     }
 

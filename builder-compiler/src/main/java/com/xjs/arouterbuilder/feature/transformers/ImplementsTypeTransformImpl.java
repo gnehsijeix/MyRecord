@@ -1,6 +1,6 @@
 package com.xjs.arouterbuilder.feature.transformers;
 
-import com.xjs.arouterbuilder.feature.TypeTransformer;
+import com.xjs.arouterbuilder.feature.ITypeTransform;
 
 import javax.lang.model.element.Element;
 
@@ -10,7 +10,7 @@ import javax.lang.model.element.Element;
  *         desc: 实现接口的获取
  */
 
-public class ImplementsTypeTransformerImpl implements TypeTransformer {
+public class ImplementsTypeTransformImpl implements ITypeTransform {
 
     @Override
     public boolean accept(Element element) {

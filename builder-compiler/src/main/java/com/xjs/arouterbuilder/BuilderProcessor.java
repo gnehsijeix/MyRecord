@@ -90,7 +90,7 @@ public class BuilderProcessor extends AbstractProcessor {
 
         Map<TypeElement, List<Element>> elementListMap = findAndSetFiled(elements);
         try {
-            BuilderClassGenerator.create(elementListMap, logger, filer, typeUtils);
+            BuilderClassGenerator.create(elementListMap, logger, filer, typeUtils, elementUtils);
         } catch (IOException e) {
             e.printStackTrace();
             logger.error("process error" + e.getMessage());

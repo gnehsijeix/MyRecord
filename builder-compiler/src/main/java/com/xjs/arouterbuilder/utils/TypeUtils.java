@@ -1,5 +1,7 @@
 package com.xjs.arouterbuilder.utils;
 
+import android.support.annotation.NonNull;
+
 import com.squareup.javapoet.TypeName;
 
 import java.lang.reflect.Type;
@@ -51,10 +53,29 @@ public class TypeUtils {
             }
         }
 
+
         if (classElement.getSuperclass().getKind() == TypeKind.NONE) {
             return false;
         } else {
             return recursionIsImplements((TypeElement) typeUtils.asElement(classElement.getSuperclass()), impsInterface, typeUtils);
         }
+    }
+
+    public static boolean isSameType(Element element, Class<?> type, Types typeUtils) {
+        TypeElement typeElement;
+        if (element instanceof TypeElement) {
+            typeElement = (TypeElement) element;
+        } else {
+            typeElement = (TypeElement) typeUtils.asElement(element.asType());
+        }
+        return typeElement.getQualifiedName().toString().equals(type.getName());
+    }
+
+    public static boolean isSubtype(TypeMirror subtypeMirror, CharSequence superTypeClassName, Types types, Elements elements) throws Exception {
+        return types.isSubtype(subtypeMirror, elements.getTypeElement(superTypeClassName).asType());
+    }
+
+    public static boolean isSubtype(TypeMirror subtypeMirror, Type superType, Types types, Elements elements) throws Exception {
+        return types.isSubtype(subtypeMirror, elements.getTypeElement(superType.getTypeName()).asType());
     }
 }

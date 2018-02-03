@@ -2,7 +2,7 @@ package com.xjs.arouterbuilder.feature.transformers;
 
 
 import com.squareup.javapoet.TypeName;
-import com.xjs.arouterbuilder.feature.TypeTransformer;
+import com.xjs.arouterbuilder.feature.ITypeTransform;
 
 import javax.lang.model.element.Element;
 
@@ -12,7 +12,7 @@ import javax.lang.model.element.Element;
  *         desc: 基础类型的
  */
 
-public class BoxPrimitiveTypeTransformerImp implements TypeTransformer {
+public class BoxPrimitiveTypeTransformImp implements ITypeTransform {
 
 
     @Override

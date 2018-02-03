@@ -1,7 +1,7 @@
 package com.xjs.arouterbuilder.feature.transformers;
 
 import com.squareup.javapoet.TypeName;
-import com.xjs.arouterbuilder.feature.TypeTransformer;
+import com.xjs.arouterbuilder.feature.ITypeTransform;
 import com.xjs.arouterbuilder.utils.TypeUtils;
 
 import java.io.Serializable;
@@ -16,11 +16,11 @@ import javax.lang.model.util.Types;
  *         desc:
  */
 
-public class SerializableTypeTransformerImpl implements TypeTransformer {
+public class SerializableTypeTransformImpl implements ITypeTransform {
 
     private Types typeUtils;
 
-    public SerializableTypeTransformerImpl(Types typeUtils) {
+    public SerializableTypeTransformImpl(Types typeUtils) {
         this.typeUtils = typeUtils;
     }
 

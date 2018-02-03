@@ -41,6 +41,7 @@
         </activity>
         <activity android:name=".lifecycle.Life2Activity"/>
         <activity android:name=".lifecycle.Life3Activity"/>
+        <activity android:name=".money.MoneyApi"/>
     </application>
 
 </manifest>

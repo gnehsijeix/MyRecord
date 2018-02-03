@@ -1,7 +1,7 @@
 package com.xjs.arouterbuilder.feature.transformers;
 
 import com.squareup.javapoet.TypeName;
-import com.xjs.arouterbuilder.feature.TypeTransformer;
+import com.xjs.arouterbuilder.feature.ITypeTransform;
 
 import javax.lang.model.element.Element;
 
@@ -11,7 +11,7 @@ import javax.lang.model.element.Element;
  *         desc: String类型的
  */
 
-public class StringTypeTransformerImpl implements TypeTransformer {
+public class StringTypeTransformImpl implements ITypeTransform {
 
     @Override
     public boolean accept(Element element) {

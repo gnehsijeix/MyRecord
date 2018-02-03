@@ -8,6 +8,8 @@ import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.xjs.myrecords.test.TestBean;
+import com.xjs.myrecords.test.TestCharSequenceBean;
+import com.xjs.myrecords.test.TestParcelableBean;
 import com.xjs.myrecords.view.CircleProgressView;
 
 import java.util.ArrayList;
@@ -19,22 +21,14 @@ public class HomeActivity extends AppCompatActivity {
 
     private CircleProgressView mCircleProgressView;
 
-    @Autowired(name = "_progress", required = true, desc = "lira")
-    int mProgress = 0;
-
-    @Autowired
-    TestBean testBean;
-
-    @Autowired(name = "_password")
-    String mPassword;
-
-    @Autowired(name =  "_test_bean_map",required = true)
-    Map<String,TestBean> testBeanMap;
-
-    @Autowired
-    List<TestBean> testBeanArrayList;
-
-
+    @Autowired(required = true)
+    ArrayList<TestParcelableBean> testBeanArrayList;
+    @Autowired(required = true)
+    ArrayList<String> stringArrayList;
+    @Autowired(required = true)
+    ArrayList<Integer> integerArrayList;
+    @Autowired(required = true)
+    ArrayList<CharSequence> testCharSequenceBeans;
 
 
     TestBean testBean2;
@@ -46,6 +40,6 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         mCircleProgressView = (CircleProgressView) findViewById(R.id.main_circle_progress_view);
-
+        //ARouter.getInstance().build("/").withCharSequenceArrayList("",testCharSequenceBeans)
     }
 }

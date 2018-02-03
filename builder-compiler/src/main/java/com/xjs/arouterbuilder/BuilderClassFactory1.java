@@ -9,7 +9,7 @@ import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.ParameterSpec;
 import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
-import com.xjs.arouterbuilder.feature.TypeTransformerManager;
+import com.xjs.arouterbuilder.feature.TypeTransformer;
 import com.xjs.arouterbuilder.utils.Logger;
 import com.xjs.arouterbuilder.utils.StringUtil;
 
@@ -42,11 +42,11 @@ public class BuilderClassFactory1 {
 
 
     private Logger logger;
-    private TypeTransformerManager transformerManager;
+    private TypeTransformer transformerManager;
 
 
     private BuilderClassFactory1(TypeElement classElement, List<Element> fieldElements,
-                                 Logger logger, TypeTransformerManager transformerManager) {
+                                 Logger logger, TypeTransformer transformerManager) {
         this.classElement = classElement;
         this.fieldElements = fieldElements;
         this.transformerManager = transformerManager;
@@ -205,7 +205,7 @@ public class BuilderClassFactory1 {
 
     }
 
-    public static JavaFile create(TypeElement classElement, List<Element> fieldElements, Logger logger, TypeTransformerManager transformerManager) {
+    public static JavaFile create(TypeElement classElement, List<Element> fieldElements, Logger logger, TypeTransformer transformerManager) {
         return new BuilderClassFactory1(classElement, fieldElements, logger, transformerManager).generate();
     }
 

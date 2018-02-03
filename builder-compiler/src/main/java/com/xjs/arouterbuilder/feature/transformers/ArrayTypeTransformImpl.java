@@ -3,7 +3,7 @@ package com.xjs.arouterbuilder.feature.transformers;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.TypeName;
 import com.xjs.arouterbuilder.Constants;
-import com.xjs.arouterbuilder.feature.TypeTransformer;
+import com.xjs.arouterbuilder.feature.ITypeTransform;
 import com.xjs.arouterbuilder.utils.TypeUtils;
 
 import javax.lang.model.element.Element;
@@ -27,9 +27,9 @@ import javax.lang.model.util.Types;
  *         .withCharSequenceArray()
  */
 
-public class ArrayTypeTransformerImpl extends BaseTypeTransformer implements TypeTransformer {
+public class ArrayTypeTransformImpl extends BaseTypeTransform implements ITypeTransform {
 
-    public ArrayTypeTransformerImpl(Types typesUtils) {
+    public ArrayTypeTransformImpl(Types typesUtils) {
         super(typesUtils);
     }
 

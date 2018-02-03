@@ -1,7 +1,7 @@
 package com.xjs.arouterbuilder;
 
 import com.squareup.javapoet.JavaFile;
-import com.xjs.arouterbuilder.feature.TypeTransformerManager;
+import com.xjs.arouterbuilder.feature.TypeTransformer;
 import com.xjs.arouterbuilder.utils.Logger;
 
 import java.io.IOException;
@@ -11,6 +11,7 @@ import java.util.Map;
 import javax.annotation.processing.Filer;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
+import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
 
 /**
@@ -21,10 +22,10 @@ import javax.lang.model.util.Types;
 
 public class BuilderClassGenerator {
 
-    public static void create(Map<TypeElement, List<Element>> elementListMap, Logger logger, Filer filer, Types types) throws IOException {
-        TypeTransformerManager typeTransformerManager =  TypeTransformerManager.create(logger,types);
+    public static void create(Map<TypeElement, List<Element>> elementListMap, Logger logger, Filer filer, Types types, Elements elements) throws IOException {
+        TypeTransformer typeTransformer =  TypeTransformer.create(logger,types,elements);
         for (Map.Entry<TypeElement, List<Element>> entry : elementListMap.entrySet()) {
-            JavaFile javaFile = BuilderClassFactory.create(entry.getKey(), entry.getValue(),logger,typeTransformerManager,types);
+            JavaFile javaFile = BuilderClassFactory.create(entry.getKey(), entry.getValue(),logger, typeTransformer,types);
             javaFile.writeTo(filer);
         }
 

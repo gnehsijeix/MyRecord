@@ -14,10 +14,10 @@ import javax.lang.model.util.Types;
  *         desc:
  */
 
-public class ParcelableTypeTransformerImpl extends BaseTypeTransformer {
+public class ParcelableTypeTransformImpl extends BaseTypeTransform {
 
 
-    public ParcelableTypeTransformerImpl(Types typesUtils) {
+    public ParcelableTypeTransformImpl(Types typesUtils) {
         super(typesUtils);
     }
 

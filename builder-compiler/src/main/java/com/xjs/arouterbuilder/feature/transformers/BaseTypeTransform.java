@@ -1,6 +1,6 @@
 package com.xjs.arouterbuilder.feature.transformers;
 
-import com.xjs.arouterbuilder.feature.TypeTransformer;
+import com.xjs.arouterbuilder.feature.ITypeTransform;
 
 import javax.lang.model.util.Types;
 
@@ -10,9 +10,9 @@ import javax.lang.model.util.Types;
  *         desc:
  */
 
-public abstract class BaseTypeTransformer implements TypeTransformer{
+public abstract class BaseTypeTransform implements ITypeTransform {
     protected Types typesUtils;
-    public BaseTypeTransformer(Types typesUtils) {
+    public BaseTypeTransform(Types typesUtils) {
         this.typesUtils = typesUtils;
     }
 }
